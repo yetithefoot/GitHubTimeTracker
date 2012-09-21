@@ -1,0 +1,74 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+
+  <title>2do2go for iOS GitHub live time reports</title>
+  <meta name="description" content="My Parse App">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/reset.css">
+<!--   <link rel="stylesheet" href="css/styles.css"> -->
+<style type="text/css">
+  body{
+    font-family: "Helvetica";
+  }
+</style>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.1.1.min.js"></script>
+</head>
+
+<body>
+  
+  <div>
+    <center><h1>2do2go for iOS GitHub live time reports</h1><center>
+
+    
+  </div>
+    <center id="posts"></center>
+  <script type="text/javascript">
+    String.format = function() {
+      var s = arguments[0];
+      for (var i = 0; i < arguments.length - 1; i++) {       
+        var reg = new RegExp("\\{" + i + "\\}", "gm");             
+        s = s.replace(reg, arguments[i + 1]);
+      }
+
+      return s;
+    }
+
+$.getJSON('https://api.github.com/repos/igortomych/2do2go/commits', function(data) {
+
+
+content = '<table border=1 width="90%"><tr><th>Commiter name</th><th>Commit message</th><th>Time (minutes)</th></tr>';
+  $.each(data, function(i,item){
+              content += '<tr>';
+
+              var commiterLogin = item.committer.login;
+              var commiterUrl = 'https://github.com/' + commiterLogin;
+              var commiterImage = item.committer.avatar_url;
+              
+              content += String.format('<td><img src={2} width=30px/>  <a href="{0}">{1}</a></td>', commiterUrl, commiterLogin, commiterImage);
+
+            
+              content += '<td>' + item.commit.message + '</td>';
+
+              // parse time in minutes
+              var timeRegex = /\[.*\s*[t|f]\:([\d|\.]*)\]/;  
+              var time = '';
+              if(item.commit.message.match(timeRegex)){
+                time = item.commit.message.match(timeRegex)[1];
+              }
+              content += '<td>' + time + '</td>';
+
+              content += '</tr>';
+            });
+
+  content += '</table>';
+  $(content).appendTo("#posts");
+});
+
+
+
+  </script>
+</body>
+
+</html>

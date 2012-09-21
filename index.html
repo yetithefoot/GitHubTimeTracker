@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>2do2go@iOS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <!-- <link href="css/bootstrap-responsive.css" rel="stylesheet"> -->
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <!-- <link rel="shortcut icon" href="../assets/ico/favicon.ico"> 
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png"> -->
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33183354-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </head>
+
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "https://connect.facebook.net/en_US/all.js#xfbml=1&appId=405097602878058";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <a class="brand" href="index.html">Timereport: 2do2go @ iOS</a>
+              <li class="divider-vertical"></li>
+<!--               <li><a href="meetups.html">Встречи</a></li> -->
+            </ul>
+
+              <ul class="nav pull-right" id="main-menu-right">
+
+                  <li class="divider-vertical"></li>
+                  <li><a rel="tooltip" target="_blank" href="https://github.com/IgorTomych/2do2go" data-original-title="GitHub repository">GitHub <i class="icon-github icon-white"></i></a></li>
+                  <!-- <li><a rel="tooltip" target="_blank" href="http://twitter.com/KharkivMobDevs" data-original-title="Community twitter timeline">Twitter <i class="icon-share-alt icon-white"></i></a></li> -->
+            </ul>
+
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+
+
+
+          <table id="posts" class="table table-condensed table-striped table-hover">
+          </table>
+
+
+
+
+        <br/>
+
+      </div>
+      <footer>
+  <p>     
+
+        
+      </footer>
+
+    </div> <!-- /container -->
+            <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/google-code-prettify/prettify.js"></script>
+    
+    <script src="js/bootstrap-dropdown.js"></script>
+
+    <script src="js/bootstrap-tooltip.js"></script>
+    <script src="js/bootstrap-popover.js"></script>
+
+
+     <script src="js/bootstrap-carousel.js"></script>
+    <script src="js/application.js"></script>
+
+
+  <script type="text/javascript">
+    String.format = function() {
+      var s = arguments[0];
+      for (var i = 0; i < arguments.length - 1; i++) {       
+        var reg = new RegExp("\\{" + i + "\\}", "gm");             
+        s = s.replace(reg, arguments[i + 1]);
+      }
+
+      return s;
+    }
+
+    function isNumber(n) {
+      return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
+
+$.getJSON('https://api.github.com/repos/IgorTomych/2do2go/commits', function(data) {
+
+
+content = '<thead><tr><th>Commiter name</th><th>Commit message</th><th>Time (minutes)</th></tr></thead><tbody>';
+
+var totalTimes = {};
+var grandTotal = 0;
+
+$.each(data, function(i,item){
+            
+    // parse values from json
+    var commiterLogin = item.committer.login;
+    var commiterUrl = 'https://github.com/' + commiterLogin;
+    var commiterImage = item.committer.avatar_url;
+    //var commitSha = item.commit.sha;
+          
+    // parse time in minutes
+    var timeRegex = /\[.*\s*[t|f]\:([\d|\.]*)\]/;  
+    var time = '';
+    if(item.commit.message.match(timeRegex)){
+      time = item.commit.message.match(timeRegex)[1];
+    }
+
+    // write DOM
+    content += '<tr>';
+    content += String.format('<td><img src={2} width=20px/>  <a href="{0}">{1}</a></td>', commiterUrl, commiterLogin, commiterImage);
+    content += String.format('<td>{0}</td>',item.commit.message);
+    content += String.format('<td>{0}</td>',time);
+    content += '</tr>';
+
+    
+    // accumulate total time
+    if(isNumber(time)){
+      // first init
+      if(!totalTimes[commiterLogin]) {totalTimes[commiterLogin] = 0;}
+
+      // accumutate
+      totalTimes[commiterLogin] += parseFloat(time);
+      grandTotal += parseFloat(time);
+    }
+    
+});
+
+
+
+
+// write totals per login
+for(var key in totalTimes) {
+
+  var value = totalTimes[key];
+
+  content += '<tr class="warning">';
+  content += String.format('<td colspan=2><strong>{0} total:</strong></td>',key);
+  content += String.format('<td><strong>{0}</strong></td>',value);
+  content += '</tr>';
+
+}
+
+// write grand total 
+content += '<tr class="success">';
+content += '<td colspan=2><strong>Grand total:</strong></td>';
+content += String.format('<td><strong>{0}</strong></td>',grandTotal);
+content += '</tr>';
+
+content += '</tbody>';
+$(content).appendTo("#posts");
+});
+
+
+
+  </script>
+  </body>
+</html>
