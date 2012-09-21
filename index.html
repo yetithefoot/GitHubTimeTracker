@@ -131,10 +131,10 @@
     }
 
 
-$.getJSON('https://api.github.com/repos/IgorTomych/2do2go/commits', function(data) {
+$.getJSON('https://api.github.com/repos/IgorTomych/2do2go/commits?access_token=1836b2b47565229cf83d8d073937715c00f75b96', function(data) {
 
 
-content = '<thead><tr><th>Commiter name</th><th>Commit message</th><th>Time (minutes)</th></tr></thead><tbody>';
+content = '<thead><tr><th width="150px">Commiter name</th><th>Commit message</th><th>Time (minutes)</th></tr></thead><tbody>';
 
 var totalTimes = {};
 var grandTotal = 0;
