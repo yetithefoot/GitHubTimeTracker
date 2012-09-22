@@ -71,7 +71,7 @@
               <ul class="nav pull-right" id="main-menu-right">
 
                   <li class="divider-vertical"></li>
-                  <li><a rel="tooltip" target="_blank" href="https://github.com/IgorTomych/2do2go" data-original-title="GitHub repository">GitHub <i class="icon-github icon-white"></i></a></li>
+                  <li><a rel="tooltip" target="_blank" href="https://github.com/IgorTomych/2do2go" data-original-title="GitHub repository">GitHub <i class="icon-share-alt icon-white"></i></a></li>
                   <!-- <li><a rel="tooltip" target="_blank" href="http://twitter.com/KharkivMobDevs" data-original-title="Community twitter timeline">Twitter <i class="icon-share-alt icon-white"></i></a></li> -->
             </ul>
 
@@ -130,8 +130,11 @@
       return !isNaN(parseFloat(n)) && isFinite(n);
     }
 
-
-$.getJSON('https://api.github.com/repos/IgorTomych/2do2go/commits?access_token=1836b2b47565229cf83d8d073937715c00f75b96', function(data) {
+$.ajax({
+  url: "https://api.github.com/repos/IgorTomych/2do2go/commits?access_token=1836b2b47565229cf83d8d073937715c00f75b96",
+  crossDomain: true,
+  dataType: "jsonp"
+}).done(function(data) {
 
 
 content = '<thead><tr><th width="150px">Commiter name</th><th>Commit message</th><th>Time (minutes)</th></tr></thead><tbody>';
@@ -139,7 +142,7 @@ content = '<thead><tr><th width="150px">Commiter name</th><th>Commit message</th
 var totalTimes = {};
 var grandTotal = 0;
 
-$.each(data, function(i,item){
+$.each(data.data, function(i,item){
             
     // parse values from json
     var commiterLogin = item.committer.login;
